@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worst Website Ever</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      overflow: hidden;
+    }
+
+    .back {
+      position: fixed;
+      top: 20px;
+      left: 25px;
+      color: black;
+      text-decoration: none;
+      z-index: 10000;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-box {
+      background: white;
+      border: 2px solid black;
+      padding: 40px;
+      width: 420px;
+      position: relative;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 35px;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid black;
+    }
+
+    #submitButton {
+      margin-top: 30px;
+      padding: 14px 25px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      font-size: 16px;
+    }
+
+    .popup {
+      position: fixed;
+      background: white;
+      border: 3px solid black;
+      width: 330px;
+      padding: 25px;
+      z-index: 1000;
+      box-shadow: 8px 8px 0 black;
+    }
+
+    .popup button {
+      padding: 10px 18px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    #loadingScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 5000;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .loading-content {
+      width: 400px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 30px;
+      border: 2px solid black;
+      margin-top: 25px;
+    }
+
+    #progress {
+      height: 100%;
+      width: 0%;
+      background: black;
+    }
+
+    #percent {
+      font-size: 25px;
+      margin-top: 15px;
+    }
+
+    #error {
+      display: none;
+      font-size: 40px;
+    }
+
+    #fakeAd {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: yellow;
+      border: 3px solid red;
+      padding: 20px;
+      width: 250px;
+      display: none;
+      z-index: 900;
+    }
+
+    #fakeAd button {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+
+<body>
+
+<a class="back" href="../">← BACK TO MIDTERM IDEAS</a>
+
+<div class="container">
+
+  <div class="form-box">
+
+    <h1>Create an Account</h1>
+
+    <p>
+      Sign up in just a few seconds.
+      We promise this will be easy.
+    </p>
+
+    <label>Name</label>
+    <input type="text" placeholder="Your name">
+
+    <label>Email</label>
+    <input type="email" placeholder="Your email">
+
+    <label>Password</label>
+    <input type="password" placeholder="Password">
+
+    <button id="submitButton">
+      SUBMIT
+    </button>
+
+  </div>
+
+</div>
+
+
+<div id="fakeAd">
+  <button onclick="closeAd()">X</button>
+
+  <strong>CONGRATULATIONS!!!</strong>
+
+  <p>
+    You are the 1,000,000th visitor!
+  </p>
+
+  <p>
+    CLICK HERE TO CLAIM NOTHING.
+  </p>
+</div>
+
+
+<div id="loadingScreen">
+
+  <div class="loading-content" id="loadingContent">
+
+    <h1>Creating your account...</h1>
+
+    <div class="bar">
+      <div id="progress"></div>
+    </div>
+
+    <div id="percent">0%</div>
+
+  </div>
+
+  <div id="error">
+
+    ERROR.
+
+    <p style="font-size:18px;">
+      Something went wrong for absolutely no reason.
+    </p>
+
+    <button onclick="location.reload()">
+      START OVER
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  const submitButton = document.getElementById("submitButton");
+
+  let escapeCount = 0;
+
+
+  // SUBMIT BUTTON RUNS AWAY
+
+  submitButton.addEventListener("mouseenter", function() {
+
+    if (escapeCount < 5) {
+
+      escapeCount++;
+
+      submitButton.style.position = "fixed";
+
+      const maxX = window.innerWidth - 150;
+      const maxY = window.innerHeight - 70;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      submitButton.style.left = randomX + "px";
+      submitButton.style.top = randomY + "px";
+
+      if (escapeCount === 3) {
+        submitButton.innerText = "STOP CHASING ME";
+      }
+
+      if (escapeCount === 5) {
+        submitButton.innerText = "FINE. CLICK ME.";
+      }
+
+    }
+
+  });
+
+
+  // FINALLY ALLOW USER TO CLICK IT
+
+  submitButton.addEventListener("click", function() {
+
+    if (escapeCount >= 5) {
+
+      createPopup(
+        "Are you sure you want to submit?",
+        firstConfirmation
+      );
+
+    }
+
+  });
+
+
+  function createPopup(message, yesFunction) {
+
+    const popup = document.createElement("div");
+
+    popup.className = "popup";
+
+    popup.style.left =
+      Math.random() * (window.innerWidth - 350) + "px";
+
+    popup.style.top =
+      Math.random() * (window.innerHeight - 250) + "px";
+
+
+    popup.innerHTML = `
+      <h2>${message}</h2>
+
+      <button class="yes">YES</button>
+
+      <button class="no">NO</button>
+    `;
+
+
+    document.body.appendChild(popup);
+
+
+    popup.querySelector(".yes").onclick = function() {
+
+      popup.remove();
+
+      yesFunction();
+
+    };
+
+
+    popup.querySelector(".no").onclick = function() {
+
+      popup.remove();
+
+      createPopup(
+        "Why did you click no?",
+        firstConfirmation
+      );
+
+    };
+
+  }
+
+
+  function firstConfirmation() {
+
+    createPopup(
+      "Are you REALLY sure?",
+      secondConfirmation
+    );
+
+  }
+
+
+  function secondConfirmation() {
+
+    createPopup(
+      "Like... REALLY REALLY sure?",
+      thirdConfirmation
+    );
+
+  }
+
+
+  function thirdConfirmation() {
+
+    document.getElementById("fakeAd").style.display = "block";
+
+    setTimeout(function() {
+
+      createPopup(
+        "Final answer?",
+        startLoading
+      );
+
+    }, 500);
+
+  }
+
+
+  // FAKE AD
+
+  function closeAd() {
+
+    const ad = document.getElementById("fakeAd");
+
+    ad.style.left =
+      Math.random() * (window.innerWidth - 250) + "px";
+
+    ad.style.top =
+      Math.random() * (window.innerHeight - 200) + "px";
+
+    ad.style.right = "auto";
+    ad.style.bottom = "auto";
+
+    ad.innerHTML = `
+      <button onclick="multiplyAds()">X</button>
+
+      <strong>WHY ARE YOU LEAVING?</strong>
+
+      <p>
+        Please reconsider this important advertisement.
+      </p>
+    `;
+
+  }
+
+
+  function multiplyAds() {
+
+    for (let i = 0; i < 2; i++) {
+
+      const newAd =
+        document.getElementById("fakeAd").cloneNode(true);
+
+      newAd.style.display = "block";
+
+      newAd.style.left =
+        Math.random() * (window.innerWidth - 250) + "px";
+
+      newAd.style.top =
+        Math.random() * (window.innerHeight - 200) + "px";
+
+      newAd.style.right = "auto";
+      newAd.style.bottom = "auto";
+
+      document.body.appendChild(newAd);
+
+    }
+
+  }
+
+
+  // FAKE LOADING SCREEN
+
+  function startLoading() {
+
+    const loadingScreen =
+      document.getElementById("loadingScreen");
+
+    loadingScreen.style.display = "flex";
+
+
+    const progress =
+      document.getElementById("progress");
+
+    const percent =
+      document.getElementById("percent");
+
+
+    let amount = 0;
+
+
+    const loading = setInterval(function() {
+
+      amount += Math.floor(Math.random() * 8) + 1;
+
+
+      if (amount >= 99) {
+
+        amount = 99;
+
+        progress.style.width = amount + "%";
+        percent.innerText = amount + "%";
+
+        clearInterval(loading);
+
+
+        setTimeout(function() {
+
+          percent.innerText = "99%";
+
+
+          setTimeout(function() {
+
+            percent.innerText = "Still 99%...";
+
+
+            setTimeout(function() {
+
+              document.getElementById(
+                "loadingContent"
+              ).style.display = "none";
+
+
+              document.getElementById(
+                "error"
+              ).style.display = "block";
+
+            }, 2000);
+
+          }, 1500);
+
+        }, 1500);
+
+
+        return;
+
+      }
+
+
+      progress.style.width = amount + "%";
+
+      percent.innerText = amount + "%";
+
+
+    }, 250);
+
+  }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Logo Generator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #111;
+    }
+
+    .back {
+      position: absolute;
+      top: 25px;
+      left: 30px;
+      color: black;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .card {
+      background: white;
+      border: 2px solid black;
+      width: 600px;
+      max-width: 100%;
+      padding: 45px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 35px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 17px;
+      border: 1px solid black;
+    }
+
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .choice {
+      border: 1px solid black;
+      padding: 10px 15px;
+      cursor: pointer;
+      background: white;
+    }
+
+    .choice:hover {
+      background: #ddd;
+    }
+
+    .choice.selected {
+      background: black;
+      color: white;
+    }
+
+    button {
+      margin-top: 35px;
+      padding: 15px 20px;
+      background: black;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.7;
+    }
+
+    #loading {
+      display: none;
+      text-align: center;
+    }
+
+    #loading h2 {
+      font-size: 30px;
+    }
+
+    #result {
+      display: none;
+      text-align: center;
+    }
+
+    #logoBox {
+      height: 300px;
+      margin-top: 30px;
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #generatedLogo {
+      font-size: 70px;
+      font-weight: bold;
+      transition: all 0.5s ease;
+    }
+
+    #analysis {
+      margin-top: 25px;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<a class="back" href="../">← BACK TO MIDTERM IDEAS</a>
+
+<div class="container">
+
+  <div class="card" id="quiz">
+
+    <h1>I'll make a logo for you.</h1>
+
+    <p class="description">
+      Answer a few extremely scientific questions and our highly
+      advanced system will determine your perfect visual identity.
+    </p>
+
+    <label>What's your name?</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Describe your personality.</label>
+
+    <div class="choices" id="personalityChoices">
+      <div class="choice" data-value="calm">Calm</div>
+      <div class="choice" data-value="chaotic">Chaotic</div>
+      <div class="choice" data-value="dramatic">Dramatic</div>
+      <div class="choice" data-value="mysterious">Mysterious</div>
+    </div>
+
+    <label>Choose your aesthetic.</label>
+
+    <div class="choices" id="aestheticChoices">
+      <div class="choice" data-value="minimal">Minimal</div>
+      <div class="choice" data-value="cute">Cute</div>
+      <div class="choice" data-value="futuristic">Futuristic</div>
+      <div class="choice" data-value="weird">Weird</div>
+    </div>
+
+    <button onclick="generateLogo()">GENERATE MY LOGO →</button>
+
+  </div>
+
+
+  <div class="card" id="loading">
+
+    <h2>ANALYZING YOU...</h2>
+
+    <p id="loadingText">
+      Examining questionable personality traits...
+    </p>
+
+  </div>
+
+
+  <div class="card" id="result">
+
+    <p>YOUR OFFICIAL BRAND IDENTITY</p>
+
+    <div id="logoBox">
+      <div id="generatedLogo"></div>
+    </div>
+
+    <div id="analysis"></div>
+
+    <button onclick="location.reload()">TRY AGAIN</button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  let personality = "";
+  let aesthetic = "";
+
+  function setupChoices(containerID, type) {
+
+    const choices = document.querySelectorAll("#" + containerID + " .choice");
+
+    choices.forEach(choice => {
+
+      choice.addEventListener("click", function() {
+
+        choices.forEach(c => c.classList.remove("selected"));
+        this.classList.add("selected");
+
+        if (type === "personality") {
+          personality = this.dataset.value;
+        }
+
+        if (type === "aesthetic") {
+          aesthetic = this.dataset.value;
+        }
+
+      });
+
+    });
+  }
+
+
+  setupChoices("personalityChoices", "personality");
+  setupChoices("aestheticChoices", "aesthetic");
+
+
+  function generateLogo() {
+
+    const name = document.getElementById("name").value;
+
+    if (name === "" || personality === "" || aesthetic === "") {
+      alert("Please answer everything first!");
+      return;
+    }
+
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("loading").style.display = "block";
+
+    const messages = [
+      "Examining questionable personality traits...",
+      "Judging your aesthetic choices...",
+      "Selecting unnecessary fonts...",
+      "Creating your new identity..."
+    ];
+
+    let messageIndex = 0;
+
+    const interval = setInterval(() => {
+
+      messageIndex++;
+
+      if (messageIndex < messages.length) {
+        document.getElementById("loadingText").innerText =
+          messages[messageIndex];
+      }
+
+    }, 600);
+
+
+    setTimeout(() => {
+
+      clearInterval(interval);
+
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("result").style.display = "block";
+
+      createLogo(name);
+
+    }, 2800);
+
+  }
+
+
+  function createLogo(name) {
+
+    const logo = document.getElementById("generatedLogo");
+    const box = document.getElementById("logoBox");
+
+    logo.innerText = name.toUpperCase();
+
+    // PERSONALITY
+
+    if (personality === "calm") {
+      logo.style.letterSpacing = "12px";
+      logo.style.fontWeight = "300";
+    }
+
+    if (personality === "chaotic") {
+      logo.style.transform = "rotate(-12deg) skew(10deg)";
+      logo.style.fontSize = "85px";
+      logo.style.letterSpacing = "-8px";
+    }
+
+    if (personality === "dramatic") {
+      logo.style.fontFamily = "Georgia, serif";
+      logo.style.fontStyle = "italic";
+      logo.style.fontSize = "90px";
+    }
+
+    if (personality === "mysterious") {
+      logo.style.letterSpacing = "18px";
+      logo.style.opacity = "0.65";
+      box.style.background = "#111";
+      logo.style.color = "white";
+    }
+
+
+    // AESTHETIC
+
+    if (aesthetic === "minimal") {
+      box.style.border = "1px solid black";
+    }
+
+    if (aesthetic === "cute") {
+      box.style.borderRadius = "40px";
+      logo.innerText = "♡ " + name.toUpperCase() + " ♡";
+    }
+
+    if (aesthetic === "futuristic") {
+      logo.style.fontFamily = "monospace";
+      logo.innerText = "[ " + name.toUpperCase() + " ]";
+    }
+
+    if (aesthetic === "weird") {
+      box.style.border = "6px dotted black";
+      logo.style.textDecoration = "underline overline";
+    }
+
+
+    document.getElementById("analysis").innerHTML =
+      "<strong>PERSONALITY ANALYSIS COMPLETE</strong><br>" +
+      "Primary trait: " + personality.toUpperCase() + "<br>" +
+      "Aesthetic condition: " + aesthetic.toUpperCase() + "<br>" +
+      "Brand potential: 94%<br>" +
+      "Questionable design decisions: 87%";
+
+  }
+
+</script>
+
+</body>
+</html>
