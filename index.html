@@ -1,33 +1,290 @@
-  <div class="idea">
-    <div class="number">IDEA 02</div>
+<!DOCTYPE html>
+<html lang="en">
 
-    <h2>How Much Is Your Time Worth?</h2>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <p>
-      An interactive website that helps people understand how much time
-      their everyday digital habits actually take up. Users enter activities
-      like TikTok, Instagram, YouTube, or gaming and how much time they spend
-      on them each day. The website translates those small daily numbers into
-      months, years, and portions of a lifetime, then helps users decide
-      whether they want to keep that habit or use some of that time differently.
-    </p>
+  <title>Daeun's Midterm Ideas</title>
 
-    <a href="Time Calculator/">TRY PROTOTYPE →</a>
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f4f0;
+      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 50px 100px;
+    }
+
+    header {
+      border-bottom: 2px solid black;
+      padding-bottom: 35px;
+      margin-bottom: 45px;
+    }
+
+    .label {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(55px, 8vw, 105px);
+      line-height: 0.9;
+      letter-spacing: -5px;
+      margin: 0 0 25px 0;
+    }
+
+    .subtitle {
+      font-size: 19px;
+      max-width: 600px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .ideas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .idea {
+      background: white;
+      border: 2px solid black;
+      padding: 28px;
+      min-height: 430px;
+
+      display: flex;
+      flex-direction: column;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .idea:hover {
+      transform: translateY(-6px);
+      box-shadow: 7px 7px 0 black;
+    }
+
+    .number {
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 45px;
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 1.05;
+      margin: 0 0 20px 0;
+      letter-spacing: -1px;
+    }
+
+    .idea p {
+      font-size: 16px;
+      line-height: 1.55;
+      margin: 0 0 30px 0;
+    }
+
+    .idea a {
+      margin-top: auto;
+      display: block;
+
+      background: black;
+      color: white;
+
+      padding: 15px 18px;
+
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+
+      text-align: center;
+    }
+
+    .idea a:hover {
+      background: #555;
+    }
+
+    footer {
+      margin-top: 50px;
+      border-top: 2px solid black;
+      padding-top: 18px;
+
+      display: flex;
+      justify-content: space-between;
+
+      font-size: 13px;
+    }
+
+
+    @media (max-width: 850px) {
+
+      .ideas {
+        grid-template-columns: 1fr;
+      }
+
+      .idea {
+        min-height: 330px;
+      }
+
+      .page {
+        padding: 40px 20px 70px;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="page">
+
+
+    <header>
+
+      <div class="label">
+        MIDTERM PROJECT PROPOSALS
+      </div>
+
+      <h1>
+        THREE<br>
+        IDEAS.
+      </h1>
+
+      <p class="subtitle">
+        Three interactive experiments exploring identity,
+        time, money, and the ways digital tools can help us
+        understand everyday choices differently.
+      </p>
+
+    </header>
+
+
+
+    <main class="ideas">
+
+
+      <!-- IDEA 01 -->
+
+      <div class="idea">
+
+        <div class="number">
+          IDEA 01
+        </div>
+
+        <h2>
+          Personal Logo Generator
+        </h2>
+
+        <p>
+          An interactive website that asks questions about a
+          person's name, personality, and aesthetic, then turns
+          those answers into a personalized visual identity.
+          The project explores what happens when something as
+          complex as identity is translated into a brand.
+        </p>
+
+        <a href="Logo Generator/">
+          TRY PROTOTYPE →
+        </a>
+
+      </div>
+
+
+
+      <!-- IDEA 02 -->
+
+      <div class="idea">
+
+        <div class="number">
+          IDEA 02
+        </div>
+
+        <h2>
+          How Much Is Your Time Worth?
+        </h2>
+
+        <p>
+          Small amounts of time rarely feel significant in the
+          moment. This website turns everyday digital habits into
+          days and years, helping users visualize how their time
+          accumulates and decide whether it reflects what they
+          actually value.
+        </p>
+
+        <a href="Time Calculator/">
+          TRY PROTOTYPE →
+        </a>
+
+      </div>
+
+
+
+      <!-- IDEA 03 -->
+
+      <div class="idea">
+
+        <div class="number">
+          IDEA 03
+        </div>
+
+        <h2>
+          Can I Afford This?
+        </h2>
+
+        <p>
+          A tool that reveals the long-term impact of small,
+          repeated purchases. Users compare everyday spending
+          with something they personally want to save for,
+          making an otherwise invisible financial tradeoff
+          easier to understand.
+        </p>
+
+        <a href="Can I Afford This/">
+          TRY PROTOTYPE →
+        </a>
+
+      </div>
+
+
+    </main>
+
+
+
+    <footer>
+
+      <span>
+        DAEUN CHUNG
+      </span>
+
+      <span>
+        MIDTERM 2026
+      </span>
+
+    </footer>
+
+
   </div>
 
+</body>
 
-  <div class="idea">
-    <div class="number">IDEA 03</div>
-
-    <h2>Can I Afford This?</h2>
-
-    <p>
-      A website that makes the long-term impact of small repeated purchases
-      easier to understand. Users enter something they regularly buy, its
-      price, and how often they buy it. The website calculates the monthly
-      and yearly cost and compares it with a personal savings goal, helping
-      users decide whether the purchase is worth it to them.
-    </p>
-
-    <a href="Can I Afford This/">TRY PROTOTYPE →</a>
-  </div>
+</html>

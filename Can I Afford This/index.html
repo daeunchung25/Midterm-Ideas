@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Can I Afford This?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: black;
+    }
+
+    .back {
+      position: absolute;
+      top: 25px;
+      left: 30px;
+      color: black;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 100px 30px;
+    }
+
+    h1 {
+      font-size: 65px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .intro {
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 50px;
+    }
+
+    .form-box {
+      background-color: white;
+      border: 2px solid black;
+      padding: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 25px;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      border: 1px solid black;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 15px 22px;
+      border: none;
+      background-color: black;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: gray;
+    }
+
+    #result {
+      display: none;
+      margin-top: 70px;
+    }
+
+    .small-text {
+      font-size: 18px;
+    }
+
+    .money {
+      font-size: 80px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .money-label {
+      font-size: 18px;
+      margin-bottom: 50px;
+    }
+
+    .stat {
+      border-top: 1px solid black;
+      padding: 20px 0;
+      font-size: 20px;
+    }
+
+    .question {
+      margin-top: 50px;
+      padding: 30px;
+      background-color: white;
+      border: 2px solid black;
+    }
+
+    #comparison {
+      display: none;
+      margin-top: 40px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 30px;
+      border: 2px solid black;
+      margin: 20px 0;
+    }
+
+    #barFill {
+      height: 100%;
+      width: 0%;
+      background-color: black;
+    }
+
+    #comparisonText {
+      font-size: 21px;
+      line-height: 1.5;
+    }
+
+    .final-question {
+      font-size: 30px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <a class="back" href="../">← BACK TO MIDTERM IDEAS</a>
+
+  <div class="container">
+
+    <h1>Can I Afford This?</h1>
+
+    <p class="intro">
+      Small purchases don't always feel significant.
+      This website shows what repeated spending becomes over time,
+      so you can decide what is actually worth your money.
+    </p>
+
+
+    <div class="form-box">
+
+      <label>What do you regularly buy?</label>
+
+      <input
+        type="text"
+        id="item"
+        placeholder="Example: Iced coffee"
+      >
+
+
+      <label>How much does it cost each time?</label>
+
+      <input
+        type="number"
+        id="price"
+        placeholder="Example: 7"
+      >
+
+
+      <label>How many times do you buy it?</label>
+
+      <input
+        type="number"
+        id="frequency"
+        placeholder="Example: 4"
+      >
+
+
+      <label>How often?</label>
+
+      <select id="period">
+        <option value="week">Per week</option>
+        <option value="month">Per month</option>
+      </select>
+
+
+      <button onclick="calculateCost()">
+        SHOW ME THE REAL COST →
+      </button>
+
+    </div>
+
+
+    <div id="result">
+
+      <p class="small-text" id="itemText"></p>
+
+      <div class="money" id="yearCost"></div>
+
+      <div class="money-label">
+        PER YEAR
+      </div>
+
+
+      <div class="stat" id="monthlyCost"></div>
+
+      <div class="stat" id="fiveYearCost"></div>
+
+      <div class="stat" id="tenYearCost"></div>
+
+
+      <div class="question">
+
+        <h2>Now compare it to something you want.</h2>
+
+        <p>
+          Instead of deciding whether this purchase is "good" or "bad,"
+          compare it with something else that matters to you.
+        </p>
+
+
+        <label>What are you saving for?</label>
+
+        <input
+          type="text"
+          id="goal"
+          placeholder="Example: Trip to Japan"
+        >
+
+
+        <label>How much would it cost?</label>
+
+        <input
+          type="number"
+          id="goalPrice"
+          placeholder="Example: 2000"
+        >
+
+
+        <button onclick="compareGoal()">
+          COMPARE →
+        </button>
+
+
+        <div id="comparison">
+
+          <div class="bar">
+            <div id="barFill"></div>
+          </div>
+
+          <p id="comparisonText"></p>
+
+          <p class="final-question">
+            Which is worth more to you?
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    let yearlyCost = 0;
+
+
+    function calculateCost() {
+
+      const item =
+        document.getElementById("item").value;
+
+      const price =
+        Number(document.getElementById("price").value);
+
+      const frequency =
+        Number(document.getElementById("frequency").value);
+
+      const period =
+        document.getElementById("period").value;
+
+
+      if (item === "" || price <= 0 || frequency <= 0) {
+
+        alert("Please answer all three questions.");
+
+        return;
+      }
+
+
+      if (period === "week") {
+
+        yearlyCost = price * frequency * 52;
+
+      } else {
+
+        yearlyCost = price * frequency * 12;
+
+      }
+
+
+      const monthlyCost = yearlyCost / 12;
+
+      const fiveYearCost = yearlyCost * 5;
+
+      const tenYearCost = yearlyCost * 10;
+
+
+      document.getElementById("result").style.display = "block";
+
+
+      document.getElementById("itemText").innerText =
+        "Your " + item + " habit becomes approximately";
+
+
+      document.getElementById("yearCost").innerText =
+        "$" + Math.round(yearlyCost).toLocaleString();
+
+
+      document.getElementById("monthlyCost").innerHTML =
+        "That's about <strong>$" +
+        Math.round(monthlyCost).toLocaleString() +
+        " every month.</strong>";
+
+
+      document.getElementById("fiveYearCost").innerHTML =
+        "Over 5 years: <strong>$" +
+        Math.round(fiveYearCost).toLocaleString() +
+        "</strong>";
+
+
+      document.getElementById("tenYearCost").innerHTML =
+        "Over 10 years: <strong>$" +
+        Math.round(tenYearCost).toLocaleString() +
+        "</strong>";
+
+
+      document.getElementById("result").scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+
+
+    function compareGoal() {
+
+      const goal =
+        document.getElementById("goal").value;
+
+      const goalPrice =
+        Number(document.getElementById("goalPrice").value);
+
+
+      if (goal === "" || goalPrice <= 0) {
+
+        alert("Enter your savings goal and its cost.");
+
+        return;
+      }
+
+
+      const percentage =
+        (yearlyCost / goalPrice) * 100;
+
+
+      const barPercentage =
+        Math.min(percentage, 100);
+
+
+      document.getElementById("comparison").style.display =
+        "block";
+
+
+      document.getElementById("barFill").style.width =
+        barPercentage + "%";
+
+
+      let message = "";
+
+
+      if (yearlyCost >= goalPrice) {
+
+        message =
+          "One year of this spending equals " +
+          "<strong>" +
+          Math.round(percentage) +
+          "%</strong> of the cost of your " +
+          "<strong>" + goal + "</strong>. " +
+          "In other words, one year of this habit could fully pay for it.";
+
+      }
+
+      else {
+
+        message =
+          "One year of this spending equals approximately " +
+          "<strong>" +
+          Math.round(percentage) +
+          "%</strong> of your " +
+          "<strong>" + goal + "</strong> goal.";
+
+      }
+
+
+      message +=
+        "<br><br>This doesn't mean the purchase is a waste. " +
+        "It simply makes the tradeoff visible so you can decide " +
+        "which use of your money matters more to you.";
+
+
+      document.getElementById("comparisonText").innerHTML =
+        message;
+
+    }
+
+  </script>
+
+</body>
+
+</html>

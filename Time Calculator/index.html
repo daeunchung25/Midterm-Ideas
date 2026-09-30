@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>How Much Is Your Time Worth?</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: black;
+    }
+
+    .back {
+      position: absolute;
+      top: 25px;
+      left: 30px;
+      color: black;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 100px 30px;
+    }
+
+    h1 {
+      font-size: 65px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .intro {
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 50px;
+    }
+
+    .form-box {
+      background-color: white;
+      border: 2px solid black;
+      padding: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 25px;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      border: 1px solid black;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 15px 22px;
+      border: none;
+      background-color: black;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: gray;
+    }
+
+    #result {
+      display: none;
+      margin-top: 70px;
+    }
+
+    .small-text {
+      font-size: 18px;
+    }
+
+    .big-number {
+      font-size: 80px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .big-label {
+      font-size: 18px;
+      margin-bottom: 50px;
+    }
+
+    .stat {
+      border-top: 1px solid black;
+      padding: 20px 0;
+      font-size: 20px;
+    }
+
+    .year-visual {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      gap: 4px;
+      margin-top: 20px;
+    }
+
+    .day {
+      aspect-ratio: 1;
+      border: 1px solid black;
+      background-color: white;
+    }
+
+    .day.used {
+      background-color: black;
+    }
+
+    .question {
+      margin-top: 50px;
+      padding: 30px;
+      background-color: white;
+      border: 2px solid black;
+    }
+
+    #changeSection {
+      display: none;
+      margin-top: 35px;
+    }
+
+    #futureResult {
+      display: none;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid black;
+    }
+
+    .future-number {
+      font-size: 60px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .ending {
+      font-size: 30px;
+      line-height: 1.2;
+      margin-top: 50px;
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <a class="back" href="../">← BACK TO MIDTERM IDEAS</a>
+
+
+  <div class="container">
+
+    <h1>How Much Is Your Time Worth?</h1>
+
+    <p class="intro">
+      Thirty minutes doesn't feel like much.
+      But what happens when thirty minutes becomes a habit?
+      See what your everyday time becomes when it is repeated for years.
+    </p>
+
+
+    <div class="form-box">
+
+      <label>Instagram — minutes per day</label>
+      <input
+        type="number"
+        id="instagram"
+        placeholder="Example: 60"
+      >
+
+
+      <label>TikTok — minutes per day</label>
+      <input
+        type="number"
+        id="tiktok"
+        placeholder="Example: 45"
+      >
+
+
+      <label>YouTube — minutes per day</label>
+      <input
+        type="number"
+        id="youtube"
+        placeholder="Example: 30"
+      >
+
+
+      <label>Gaming — minutes per day</label>
+      <input
+        type="number"
+        id="gaming"
+        placeholder="Example: 30"
+      >
+
+
+      <label>Other screen time — minutes per day</label>
+      <input
+        type="number"
+        id="other"
+        placeholder="Example: 20"
+      >
+
+
+      <button onclick="calculateTime()">
+        SHOW ME MY TIME →
+      </button>
+
+    </div>
+
+
+
+    <div id="result">
+
+      <p class="small-text">
+        At your current daily average, this becomes approximately
+      </p>
+
+      <div class="big-number" id="hoursYear"></div>
+
+      <div class="big-label">
+        HOURS EVERY YEAR
+      </div>
+
+
+      <div class="stat" id="dailyText"></div>
+
+      <div class="stat" id="daysYear"></div>
+
+      <div class="stat" id="tenYears"></div>
+
+      <div class="stat" id="sixtyYears"></div>
+
+
+
+      <div class="year-visual">
+
+        <h2>One year of your life</h2>
+
+        <p>
+          Each square represents one day.
+          Black squares represent the equivalent number of full
+          24-hour days spent on these activities.
+        </p>
+
+        <div class="days" id="daysVisual"></div>
+
+      </div>
+
+
+
+      <div class="question">
+
+        <h2>Was that time worth it?</h2>
+
+        <p>
+          Time spent online isn't automatically wasted.
+          The important question is whether it reflects
+          how you actually want to spend your time.
+        </p>
+
+        <select id="worth" onchange="showChangeSection()">
+
+          <option value="">
+            Choose an answer
+          </option>
+
+          <option value="yes">
+            Yes, absolutely
+          </option>
+
+          <option value="some">
+            Some of it
+          </option>
+
+          <option value="no">
+            Not really
+          </option>
+
+          <option value="unsure">
+            I'm not sure
+          </option>
+
+        </select>
+
+
+
+        <div id="changeSection">
+
+          <h2>What do you wish you had more time for?</h2>
+
+          <select id="goal">
+
+            <option value="making art">
+              Making art
+            </option>
+
+            <option value="seeing friends">
+              Seeing friends
+            </option>
+
+            <option value="sleeping">
+              Sleeping
+            </option>
+
+            <option value="reading">
+              Reading
+            </option>
+
+            <option value="exercising">
+              Exercising
+            </option>
+
+            <option value="learning something new">
+              Learning something new
+            </option>
+
+            <option value="working on a personal project">
+              A personal project
+            </option>
+
+          </select>
+
+
+          <label>
+            How many minutes would you realistically take back each day?
+          </label>
+
+          <select id="takeBack">
+
+            <option value="10">
+              10 minutes
+            </option>
+
+            <option value="20">
+              20 minutes
+            </option>
+
+            <option value="30">
+              30 minutes
+            </option>
+
+            <option value="60">
+              1 hour
+            </option>
+
+          </select>
+
+
+          <button onclick="calculateFuture()">
+            SHOW ME WHAT THAT BECOMES →
+          </button>
+
+
+
+          <div id="futureResult">
+
+            <p>
+              A small change becomes
+            </p>
+
+            <div
+              class="future-number"
+              id="futureHours">
+            </div>
+
+            <p id="futureText"></p>
+
+            <p class="ending">
+              You didn't find more time.<br>
+              <strong>You decided where some of it goes.</strong>
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+
+    function getNumber(id) {
+
+      return Number(
+        document.getElementById(id).value
+      ) || 0;
+
+    }
+
+
+
+    function calculateTime() {
+
+      const instagram = getNumber("instagram");
+      const tiktok = getNumber("tiktok");
+      const youtube = getNumber("youtube");
+      const gaming = getNumber("gaming");
+      const other = getNumber("other");
+
+
+      const dailyMinutes =
+        instagram +
+        tiktok +
+        youtube +
+        gaming +
+        other;
+
+
+      if (dailyMinutes <= 0) {
+
+        alert("Enter at least one amount of time.");
+
+        return;
+
+      }
+
+
+      const yearlyHours =
+        dailyMinutes * 365 / 60;
+
+
+      const fullDays =
+        yearlyHours / 24;
+
+
+      const tenYearDays =
+        fullDays * 10;
+
+
+      const sixtyYearYears =
+        (fullDays * 60) / 365;
+
+
+      document.getElementById("result").style.display =
+        "block";
+
+
+      document.getElementById("hoursYear").innerText =
+        Math.round(yearlyHours).toLocaleString();
+
+
+      document.getElementById("dailyText").innerHTML =
+        "Every day: <strong>" +
+        dailyMinutes +
+        " minutes</strong>";
+
+
+      document.getElementById("daysYear").innerHTML =
+        "Every year: <strong>" +
+        fullDays.toFixed(1) +
+        " full 24-hour days</strong>";
+
+
+      document.getElementById("tenYears").innerHTML =
+        "Over 10 years: <strong>" +
+        Math.round(tenYearDays) +
+        " full days</strong>";
+
+
+      document.getElementById("sixtyYears").innerHTML =
+        "If this pattern continued for 60 years, it would equal approximately <strong>" +
+        sixtyYearYears.toFixed(1) +
+        " years of your life.</strong>";
+
+
+      createYearVisual(fullDays);
+
+
+      document.getElementById("result").scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+
+
+    function createYearVisual(fullDays) {
+
+      const visual =
+        document.getElementById("daysVisual");
+
+
+      visual.innerHTML = "";
+
+
+      const usedDays =
+        Math.round(fullDays);
+
+
+      for (let i = 1; i <= 365; i++) {
+
+        const square =
+          document.createElement("div");
+
+
+        square.classList.add("day");
+
+
+        if (i <= usedDays) {
+
+          square.classList.add("used");
+
+        }
+
+
+        visual.appendChild(square);
+
+      }
+
+    }
+
+
+
+    function showChangeSection() {
+
+      const answer =
+        document.getElementById("worth").value;
+
+
+      if (answer === "") {
+
+        document.getElementById("changeSection").style.display =
+          "none";
+
+      }
+
+      else {
+
+        document.getElementById("changeSection").style.display =
+          "block";
+
+      }
+
+    }
+
+
+
+    function calculateFuture() {
+
+      const minutes =
+        Number(
+          document.getElementById("takeBack").value
+        );
+
+
+      const goal =
+        document.getElementById("goal").value;
+
+
+      const yearlyHours =
+        minutes * 365 / 60;
+
+
+      const tenYearHours =
+        yearlyHours * 10;
+
+
+      const eightHourDays =
+        tenYearHours / 8;
+
+
+      document.getElementById("futureResult").style.display =
+        "block";
+
+
+      document.getElementById("futureHours").innerText =
+        Math.round(yearlyHours) +
+        " HOURS / YEAR";
+
+
+      document.getElementById("futureText").innerHTML =
+        "Taking back just <strong>" +
+        minutes +
+        " minutes each day</strong> would give you approximately " +
+        "<strong>" +
+        Math.round(yearlyHours) +
+        " hours every year</strong> for " +
+        goal +
+        ".<br><br>" +
+
+        "Over 10 years, that's <strong>" +
+        Math.round(tenYearHours).toLocaleString() +
+        " hours</strong> — the equivalent of about " +
+        "<strong>" +
+        Math.round(eightHourDays) +
+        " eight-hour days</strong> spent on something you intentionally chose.";
+
+    }
+
+  </script>
+
+</body>
+
+</html>
